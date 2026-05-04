@@ -2,7 +2,8 @@
 import { motion } from "framer-motion";
 import { Scissors, Sparkles, Shirt, Ruler, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import embroideryImg from "@assets/embroidery.png";
+import Image from "next/image";
+import embroideryImg from "@/assets/embroidery.png";
 
 const otherServices = [
   {
@@ -63,10 +64,11 @@ export function Services() {
           <div className="relative grid md:grid-cols-2 rounded-3xl overflow-hidden bg-card border border-card-border shadow-xl group">
             {/* Image */}
             <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden">
-              <img
+              <Image
                 src={embroideryImg}
                 alt="Computer embroidery on silk"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                priority
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-card/40 md:to-card/60" />
               <div className="absolute top-6 left-6">
