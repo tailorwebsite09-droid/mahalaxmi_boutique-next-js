@@ -1,32 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, readFile, mkdir } from "fs/promises";
-import { join } from "path";
+import { supabase } from "@/lib/supabase";
 
-// Handle PUT requests to upload files
-export async function PUT(
-  req: NextRequest,
-  { params }: { params: Promise<{ path: string[] }> }
-) {
-  try {
-    const { path } = await params;
-    const objectPath = path.join("/");
-    
-    const buffer = await req.arrayBuffer();
-    
-    const uploadDir = join(process.cwd(), "private_uploads", "objects", ...path.slice(0, -1));
-    await mkdir(uploadDir, { recursive: true });
-    
-    const filePath = join(process.cwd(), "private_uploads", "objects", objectPath);
-    await writeFile(filePath, Buffer.from(buffer));
-    
-    return NextResponse.json({ ok: true });
-  } catch (error) {
-    console.error("Error saving object:", error);
-    return NextResponse.json({ error: "Failed to save object" }, { status: 500 });
-  }
-}
-
-// Handle GET requests to retrieve files
+// Handle GET requests to retrieve files from Supabase Storage
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
@@ -35,8 +10,19 @@ export async function GET(
     const { path } = await params;
     const objectPath = path.join("/");
     
-    const filePath = join(process.cwd(), "private_uploads", "objects", objectPath);
-    const fileBuffer = await readFile(filePath);
+    const { data, error } = await supabase.storage
+      .from("designs")
+      .download(objectPath);
+
+    if (error) {
+      console.error("Error downloading from Supabase Storage:", error);
+      if (error.message.includes("Object not found")) {
+        return NextResponse.json({ error: "Object not found" }, { status: 404 });
+      }
+      throw error;
+    }
+
+    const fileBuffer = await data.arrayBuffer();
     
     const ext = objectPath.split('.').pop();
     let contentType = "application/octet-stream";
@@ -48,9 +34,6 @@ export async function GET(
       headers: { "Content-Type": contentType },
     });
   } catch (error: any) {
-    if (error.code === 'ENOENT') {
-      return NextResponse.json({ error: "Object not found" }, { status: 404 });
-    }
     console.error("Error serving object:", error);
     return NextResponse.json({ error: "Failed to serve object" }, { status: 500 });
   }

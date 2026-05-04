@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { customAlphabet } from "nanoid";
+import { supabase } from "@/lib/supabase";
 
 const idGen = customAlphabet("abcdefghijklmnopqrstuvwxyz0123456789", 10);
 
@@ -24,16 +25,22 @@ export async function POST(req: NextRequest) {
 
     const { name, size, contentType } = parsed.data;
     
-    // Instead of Google Cloud Storage, we'll return a local API endpoint that will accept the PUT
     const ext = name.split('.').pop() || "bin";
     const objectName = `${Date.now()}-${idGen()}.${ext}`;
-    const objectPath = `/objects/orders/${objectName}`;
+    const objectPath = `orders/${objectName}`;
     
-    // For local dev, we provide a relative URL to our own API that handles PUT
-    const uploadURL = `/api/storage${objectPath}`;
+    // Generate a signed URL for Supabase Storage
+    const { data, error } = await supabase.storage
+      .from("designs")
+      .createSignedUploadUrl(objectPath);
+
+    if (error) {
+      console.error("Supabase Storage error:", error);
+      throw error;
+    }
 
     return NextResponse.json({
-      uploadURL,
+      uploadURL: data.signedUrl,
       objectPath,
       metadata: { name, size, contentType },
     });
