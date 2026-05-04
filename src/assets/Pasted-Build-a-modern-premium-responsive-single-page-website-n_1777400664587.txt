@@ -1,0 +1,115 @@
+Build a modern, premium, responsive single-page website named "Mahalaxmi Boutiques" using HTML, CSS, and JavaScript (no heavy frameworks, but clean modular structure). The design should feel elegant, feminine, and luxurious (pastel palette, gold accents, smooth animations, soft shadows).
+
+The website must be a SINGLE PAGE APPLICATION with smooth scrolling navigation.
+
+---
+
+## STRUCTURE
+
+1. HOME SECTION
+
+* Full-screen hero section with boutique/embroidery themed background
+* Title: "Mahalaxmi Boutiques"
+* Subtitle: "Where Tradition Meets Elegance"
+* CTA Button: "Explore Services" (smooth scroll to Services)
+* Add subtle animation (fade-in + slight zoom)
+
+2. ABOUT SECTION
+
+* Short brand story focused on craftsmanship, tradition, and modern fashion
+* Include image placeholder (boutique / embroidery work)
+* Split layout (text + image)
+* Soft entrance animation
+
+3. SERVICES SECTION
+
+* Highlight "Computer Embroidery" as the MAIN featured service (larger card or spotlight design)
+* Other services:
+  • Custom Blouse Stitching
+  • Designer Wear
+  • Alterations
+* Each service card should include:
+
+  * Icon or image
+  * Title
+  * Short description
+* Add hover animations (lift + shadow)
+
+4. WHY CHOOSE US SECTION
+
+* 4-column responsive grid (stack on mobile)
+
+* Each item includes icon + title + short description:
+
+  • Perfect Fitting Guarantee
+  "Precision tailoring that complements your body perfectly"
+
+  • Experienced Tailors
+  "Skilled craftsmanship with years of expertise"
+
+  • Affordable Pricing
+  "Premium quality at budget-friendly prices"
+
+  • On-Time Delivery
+  "We value your time with guaranteed timely service"
+
+* Use card design with rounded corners + shadows
+
+* Add hover effect (scale/glow)
+
+* Add fade-up animation on scroll
+
+5. TESTIMONIALS SECTION
+
+* 3–4 customer testimonials
+* Include name + short feedback
+* Add sliding carousel or fade transition animation
+
+6. CONTACT US SECTION (FULLY FUNCTIONAL)
+
+* Fields:
+  • Name
+  • Email
+  • Phone
+  • Message
+
+ON SUBMIT:
+
+1. Send email using EmailJS (no backend required)
+2. Show success popup notification ("Message Sent Successfully")
+
+* Add validation (required fields, email format)
+
+* Add loading state while sending
+
+* Include contact info:
+  • Phone number (placeholder)
+  • Email (placeholder)
+  • Location (placeholder)
+
+---
+
+## EXTRA FEATURES
+
+* Sticky navbar with smooth scroll links
+* Google Fonts: Playfair Display (headings) + Poppins (body)
+* Fully responsive (mobile-first design)
+* Scroll-to-top button
+* Smooth animations using CSS or Intersection Observer
+* Clean, well-commented code
+
+---
+
+## TECH SETUP
+
+* Use EmailJS for sending emails (include placeholder for:
+  service ID, template ID, public key)
+
+---
+
+## DELIVERABLE
+
+* Provide complete working code
+* Prefer single HTML file with embedded CSS + JS OR clearly separated files
+* Include instructions to configure EmailJS keys
+* Code should be clean, readable, and production-ready
