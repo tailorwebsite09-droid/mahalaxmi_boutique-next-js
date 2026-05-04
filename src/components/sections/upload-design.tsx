@@ -323,7 +323,7 @@ export function UploadDesign() {
           fabricType: form.fabricType,
           placement: form.placement,
           aiEnhancement: form.aiEnhancement,
-          designPath: objectPath,
+          designPath: `/objects/${objectPath}`,
           designFileName: optimised.name,
         }),
       });
