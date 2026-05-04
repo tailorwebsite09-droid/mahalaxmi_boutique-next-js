@@ -31,12 +31,15 @@ export async function POST(req: NextRequest) {
     
     // Generate a signed URL for Supabase Storage
     const { data, error } = await supabase.storage
-      .from("designs")
+      .from("products")
       .createSignedUploadUrl(objectPath);
 
     if (error) {
       console.error("Supabase Storage error:", error);
-      throw error;
+      return NextResponse.json({ 
+        error: "Storage bucket 'products' not found. Please create it in your Supabase project.",
+        needsSetup: true 
+      }, { status: 400 });
     }
 
     return NextResponse.json({
@@ -44,8 +47,16 @@ export async function POST(req: NextRequest) {
       objectPath,
       metadata: { name, size, contentType },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error generating upload URL:", error);
+    
+    if (error?.message?.includes("Bucket not found") || error?.statusCode === "404") {
+      return NextResponse.json({ 
+        error: "Storage bucket 'products' not found. Please create it in your Supabase project.",
+        needsSetup: true 
+      }, { status: 400 });
+    }
+
     return NextResponse.json(
       { error: "Failed to generate upload URL" },
       { status: 500 }

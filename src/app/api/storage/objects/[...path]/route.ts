@@ -11,7 +11,7 @@ export async function GET(
     const objectPath = path.join("/");
     
     const { data, error } = await supabase.storage
-      .from("designs")
+      .from("products")
       .download(objectPath);
 
     if (error) {

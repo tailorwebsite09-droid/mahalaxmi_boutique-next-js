@@ -1,6 +1,7 @@
 "use client";
 import { Instagram, Mail, Phone, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -13,6 +14,8 @@ const WHATSAPP_NUMBER = "917993364017";
 const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
 
 export function Footer() {
+  const pathname = usePathname();
+  if (pathname === "/admin") return null;
 
   return (
     <footer className="relative bg-foreground text-background pt-16 pb-8 overflow-hidden">
@@ -99,4 +102,3 @@ export function Footer() {
     </footer>
   );
 }
-

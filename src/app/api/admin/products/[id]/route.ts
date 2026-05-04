@@ -3,8 +3,7 @@ import { db } from "@/lib/db";
 import { products } from "@/lib/schema";
 import { requireAdmin } from "@/lib/server-admin-auth";
 import { eq } from "drizzle-orm";
-import { unlink } from "fs/promises";
-import { join } from "path";
+import { supabase } from "@/lib/supabase";
 
 export async function DELETE(
   req: NextRequest,
@@ -28,12 +27,15 @@ export async function DELETE(
 
     if (existing?.imageUrl) {
       try {
-        if (existing.imageUrl.startsWith("/uploads/")) {
-          const filePath = join(process.cwd(), "public", existing.imageUrl);
-          await unlink(filePath).catch(() => {});
+        // If it's a Supabase storage URL, try to delete it
+        if (existing.imageUrl.includes("supabase.co/storage/v1/object/public/products/")) {
+          const path = existing.imageUrl.split("/public/products/")[1];
+          if (path) {
+            await supabase.storage.from("products").remove([path]);
+          }
         }
       } catch (e) {
-        console.warn("Failed to remove product image from storage", e);
+        console.warn("Failed to remove product image from Supabase storage", e);
       }
     }
 
